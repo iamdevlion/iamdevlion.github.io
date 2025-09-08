@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prasada Maju — Cleaning Services</title>
+  <meta name="description" content="Professional cleaning services in Kuala Lumpur & Selangor." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --brand-navy:#0f2330;
+      --brand-teal:#58b7b1;
+      --brand-aqua:#7fd8d2;
+      --brand-lavender:#cbbcc9;
+      --brand-mauve:#c7a7b6;
+      --bg:#ffffff;
+      --text:#0b1324;
+      --muted:#6b7280;
+      --surface:#ffffff;
+      --border:#e5e7eb;
+      --shadow:0 10px 30px rgba(2,6,23,.08);
+      --cta-start: var(--brand-aqua);
+      --cta-end: var(--brand-teal);
+      --logo-height: 64px; /* logo size */
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background: var(--bg);
+      overflow-x:hidden;
+    }
+
+    header{position:sticky; top:0; background:rgba(255,255,255,.95); backdrop-filter:saturate(140%) blur(8px); border-bottom:1px solid var(--border); z-index:20}
+    .container{max-width:1100px; margin:0 auto; padding:10px clamp(16px,4vw,28px)}
+    .row{display:flex; align-items:center; gap:12px}
+
+    .hero{min-height:70svh; display:grid; place-items:center; padding: clamp(24px, 5vw, 72px)}
+    .card{width:min(1100px, 100%); padding: clamp(24px, 5vw, 56px); border-radius:24px; background:var(--surface); border:1px solid var(--border); box-shadow: var(--shadow)}
+
+    .badge{display:inline-flex; align-items:center; gap:.5rem; padding:.4rem .7rem; border-radius:999px; font-weight:600; font-size:.85rem; background:rgba(127,216,210,.18); color:var(--brand-navy); border:1px solid rgba(88,183,177,.45)}
+
+    .title{font-size: clamp(2rem, 3.6vw, 3.2rem); line-height:1.15; margin:14px 0 10px; font-weight:900; letter-spacing:-.02em}
+    .subtitle{font-size: clamp(1rem, 1.4vw, 1.1rem); color:var(--muted); margin:0 0 26px}
+
+    .cta{display:flex; flex-wrap:wrap; gap:12px; margin-top:24px}
+    .btn{display:inline-flex; align-items:center; gap:.6rem; padding:.9rem 1.1rem; border-radius:14px; border:1px solid transparent; font-weight:700; text-decoration:none; color:#083040; background:linear-gradient(180deg,var(--cta-start),var(--cta-end)); box-shadow:0 8px 20px rgba(88,183,177,.25)}
+    .btn.secondary{ color:var(--brand-navy); background:#fff; border:1px solid var(--border)}
+    .btn:hover{filter:saturate(110%) brightness(1.03)}
+    .btn.secondary:hover{background:#f8fafc}
+
+    input, select, textarea{padding:1rem; border-radius:12px; border:1px solid var(--border); background:#fff; color:var(--text)}
+
+    footer{position:static; margin:40px 0 24px; display:flex; justify-content:center}
+    .foot{padding:.35rem .7rem; border-radius:999px; background:#fff; border:1px solid var(--border); color:var(--muted); font-size:.85rem}
+
+    /* Accent headings */
+    h2.title{border-left:6px solid var(--brand-teal); padding-left:14px}
+
+    /* Service cards (clickable) */
+    .service-card{cursor:pointer; user-select:none; transition:transform .15s ease, box-shadow .2s ease, border-color .2s ease}
+    .service-card:hover{transform:translateY(-2px); box-shadow:0 12px 28px rgba(2,6,23,.08); border-color:rgba(88,183,177,.55)}
+
+    /* Modal */
+    .modal{position:fixed; inset:0; display:none; align-items:center; justify-content:center; padding:24px; background:rgba(15,23,42,.5); z-index:50}
+    .modal.open{display:flex}
+    .modal-card{width:min(1000px,95vw); background:#fff; border:1px solid var(--border); border-radius:20px; box-shadow:0 20px 60px rgba(2,6,23,.2); overflow:hidden; display:grid; grid-template-columns: 1.1fr 1fr; position:relative}
+    .modal-media{min-height:260px; background:#f3f4f6;}
+    .modal-media img{width:100%; height:100%; object-fit:cover; display:block}
+    .modal-body{padding:22px 22px 18px}
+    .modal-body h3{margin:0 0 6px; font-size:clamp(1.3rem,2vw,1.8rem)}
+    .modal-body p{margin:0 0 10px; color:var(--muted)}
+    .chip{display:inline-block; margin:6px 6px 0 0; padding:.35rem .6rem; border-radius:999px; border:1px solid var(--border); font-size:.85rem}
+    .modal-actions{display:flex; gap:10px; margin-top:12px}
+    .close-x{position:absolute; top:10px; right:10px; width:36px; height:36px; border-radius:999px; border:1px solid var(--border); background:#fff; display:grid; place-items:center; cursor:pointer}
+
+    /* Gallery */
+    #gallery .thumb{overflow:hidden; border-radius:14px; border:1px solid var(--border); box-shadow:var(--shadow)}
+    #gallery img{display:block; width:100%; height:200px; object-fit:cover}
+
+    @media (max-width:860px){ .modal-card{grid-template-columns: 1fr} }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="row">
+        <img src="logo.png" alt="Prasada Maju logo" style="height:var(--logo-height); width:auto; display:block"/>
+        <strong style="font-weight:900; letter-spacing:.2px; color:var(--brand-navy)">Prasada Maju</strong>
+        <span class="badge" style="margin-left:auto">🧼 Since 2000</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="hero" role="main">
+    <section class="card" aria-label="Hero">
+      <h1 class="title" style="margin-top:10px">
+        <span id="headline">YOUR TRUSTED CLEANING PARTNER</span>
+        <span class="subtitle" style="display:block; font-weight:500; margin-top:12px" id="tagline">
+          Committed to keep your spaces clean, healthy, and ready — through reliable service and genuine care.
+        </span>
+      </h1>
+
+      <p class="subtitle" style="margin-top:10px; max-width:70ch">Creating clean, organised, and stress-free spaces — so you can focus on what matters most. End‑to‑end cleaning services with a personal touch, professionally delivered.</p>
+
+      <div class="cta">
+        <a class="btn" href="#quote">Get Quote</a>
+        <a class="btn secondary" href="#about">About Us</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ABOUT -->
+  <section id="about" class="hero" style="padding-top:0">
+    <section class="card" aria-label="About Prasada Maju">
+      <h2 class="title" style="font-size:clamp(1.6rem,2.6vw,2.6rem); margin-top:0">ABOUT US — PRASADA MAJU</h2>
+      <p class="subtitle" style="max-width:75ch">Established in 2000, Prasada Maju Cleaning Services has built a solid reputation for delivering high‑quality cleaning solutions across Kuala Lumpur and Selangor. With over two decades of experience, we specialise in residential, commercial, and post‑renovation cleaning — tailored to meet the specific needs of each client. From homes to high‑rise offices and newly completed projects, our team is committed to maintaining clean, safe, and healthy spaces with professionalism, consistency, and care.</p>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:12px; margin-top:18px">
+        <div class="badge">Experienced & trained teams</div>
+        <div class="badge">Prompt, reliable, respectful</div>
+        <div class="badge">Transparent pricing</div>
+        <div class="badge">Customised cleaning plans</div>
+        <div class="badge">Safe, eco‑conscious methods</div>
+      </div>
+    </section>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="hero" style="padding-top:0">
+    <section class="card" aria-label="Services">
+      <h2 class="title" style="font-size:clamp(1.6rem,2.6vw,2.6rem); margin-top:0">LET US TAILOR THE RIGHT SOLUTION FOR YOU</h2>
+      <p class="subtitle" style="max-width:75ch">Every space and cleaning challenge is unique. We create customised cleaning solutions designed around your specific needs, timelines, and expectations.</p>
+
+      <ul style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; list-style:none; padding:0; margin:18px 0 0">
+        <li class="card service-card" data-service="office" style="padding:16px">Office Cleaning</li>
+        <li class="card service-card" data-service="retail" style="padding:16px">Retail Cleaning</li>
+        <li class="card service-card" data-service="spring" style="padding:16px">Spring Cleaning</li>
+        <li class="card service-card" data-service="carpet" style="padding:16px">Carpet & Upholstery Cleaning</li>
+        <li class="card service-card" data-service="floor" style="padding:16px">Floor Restoration Treatment</li>
+        <li class="card service-card" data-service="sanitize" style="padding:16px">Sanitising Services</li>
+        <li class="card service-card" data-service="toiletry" style="padding:16px">Toiletry & Hygiene Service</li>
+        <li class="card service-card" data-service="pest" style="padding:16px">Pest Control Service</li>
+        <li class="card service-card" data-service="landscape" style="padding:16px">Landscaping Service</li>
+      </ul>
+    </section>
+  </section>
+
+  <!-- GALLERY PREVIEW -->
+  <section id="gallery" class="hero" style="padding-top:0">
+    <section class="card" aria-label="Preview Gallery">
+      <h2 class="title" style="font-size:clamp(1.6rem,2.6vw,2.2rem); margin-top:0">WORK PREVIEW</h2>
+      <p class="subtitle" style="max-width:75ch">These images are placeholders. Drop your own photos in the <code>images/</code> folder to replace them automatically.</p>
+      <div class="container" style="padding:0">
+        <div class="row" style="flex-wrap:wrap; gap:14px">
+          <div class="thumb" style="flex:1 1 320px"><img id="g_office" alt="Office Cleaning"/></div>
+          <div class="thumb" style="flex:1 1 320px"><img id="g_retail" alt="Retail Cleaning"/></div>
+          <div class="thumb" style="flex:1 1 320px"><img id="g_spring" alt="Spring Cleaning"/></div>
+          <div class="thumb" style="flex:1 1 320px"><img id="g_carpet" alt="Carpet & Upholstery"/></div>
+          <div class="thumb" style="flex:1 1 320px"><img id="g_floor" alt="Floor Restoration"/></div>
+          <div class="thumb" style="flex:1 1 320px"><img id="g_sanitize" alt="Sanitising"/></div>
+          <div class="thumb" style="flex:1 1 320px"><img id="g_toiletry" alt="Toiletry & Hygiene"/></div>
+          <div class="thumb" style="flex:1 1 320px"><img id="g_pest" alt="Pest Control"/></div>
+          <div class="thumb" style="flex:1 1 320px"><img id="g_landscape" alt="Landscaping"/></div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- SERVICE MODAL -->
+  <div id="serviceModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+    <div class="modal-card">
+      <div class="modal-media"><img id="modalImg" src="" alt=""/></div>
+      <div class="modal-body">
+        <button class="close-x" aria-label="Close" id="modalClose">✕</button>
+        <h3 id="modalTitle">Service Title</h3>
+        <p id="modalDesc">Service description.</p>
+        <div id="modalChips"></div>
+        <div class="modal-actions">
+          <a class="btn" href="#quote">Request a Quote</a>
+          <button class="btn secondary" type="button" id="modalClose2">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUOTE FORM -->
+  <section id="quote" class="hero" style="padding-top:0">
+    <section class="card" aria-label="Order Form — Get Quote">
+      <h2 class="title" style="font-size:clamp(1.6rem,2.6vw,2.6rem); margin-top:0">ORDER FORM — GET QUOTE</h2>
+      <form id="quoteForm" style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:10px">
+        <label style="display:flex; flex-direction:column; gap:6px">Full Name
+          <input required type="text" name="name" placeholder="Your name">
+        </label>
+        <label style="display:flex; flex-direction:column; gap:6px">Company
+          <input type="text" name="company" placeholder="Company (optional)">
+        </label>
+        <label style="display:flex; flex-direction:column; gap:6px">Phone / WhatsApp
+          <input required type="tel" name="phone" placeholder="e.g. 012‑345 6789">
+        </label>
+        <label style="display:flex; flex-direction:column; gap:6px">Email
+          <input type="email" name="email" placeholder="email@example.com">
+        </label>
+        <label style="grid-column:1 / -1; display:flex; flex-direction:column; gap:6px">Service Needed
+          <select name="service">
+            <option>Office Cleaning</option>
+            <option>Retail Cleaning</option>
+            <option>Spring Cleaning</option>
+            <option>Carpet & Upholstery Cleaning</option>
+            <option>Floor Restoration Treatment</option>
+            <option>Sanitising Services</option>
+            <option>Toiletry & Hygiene Service</option>
+            <option>Pest Control Service</option>
+            <option>Landscaping Service</option>
+            <option>Other</option>
+          </select>
+        </label>
+        <label style="grid-column:1 / -1; display:flex; flex-direction:column; gap:6px">Details
+          <textarea name="details" rows="5" placeholder="Tell us about your space, timeline, and any special requirements."></textarea>
+        </label>
+        <div style="grid-column:1 / -1; display:flex; gap:10px; flex-wrap:wrap">
+          <button class="btn" id="submitQuote" type="submit">Send via WhatsApp</button>
+          <button class="btn secondary" id="sendEmail" type="button">Email Us</button>
+        </div>
+      </form>
+      <p class="subtitle" id="formStatus" style="margin-top:14px"></p>
+    </section>
+  </section>
+
+  <footer>
+    <div class="foot">© <span id="year"></span> Prasada Maju</div>
+  </footer>
+
+  <script>
+    // ====== SET THESE (we used placeholders) ======
+    const WHATSAPP_NUMBER = '60123456789'; // e.g. 60 + mobile without leading 0; replace with your real number
+    const SALES_EMAIL = 'hello@example.com'; // replace with your inbox
+    // ==============================================
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Headline rotation
+    (function(){
+      const pairs = [
+        { h: 'FROM DIRT TO DELIGHT—WE HANDLE IT ALL.', s: 'Your partner in restoring clean and comfort tailored to your needs.' },
+        { h: 'EVERY CORNER. EVERY DETAIL. EVERY TIME.', s: 'We deliver consistent, detail-oriented cleaning to maintain safe, spotless environments tailored to your needs.' },
+        { h: 'CLEAN SPACES. CLEAR MINDS. CONFIDENT CLIENTS.', s: 'Creating clean, organised, and stress-free spaces — so you can focus on what matters most.' },
+        { h: 'END-TO-END CLEANING SERVICES WITH A PERSONAL TOUCH', s: 'We provide tailored cleaning solutions that meet your standards from start to finish.' },
+        { h: 'QUALITY-DRIVEN CLEANING. PROFESSIONALLY DELIVERED.', s: 'High standards of cleanliness, safety, and professionalism — every visit, every client.' },
+        { h: 'YOUR TRUSTED CLEANING PARTNER', s: 'Committed to keep your spaces clean, healthy, and ready — through reliable service and genuine care.' }
+      ];
+      const head = document.getElementById('headline');
+      const sub  = document.getElementById('tagline');
+      let i = 0; const ms = 3000;
+      function show(){ head.textContent = pairs[i].h; sub.textContent = pairs[i].s; }
+      show();
+      setInterval(()=>{ i = (i+1) % pairs.length; show(); }, ms);
+    })();
+
+    (function(){
+      // Service content (title, description, bullets, image)
+      const services = {
+        office: { title: 'Office Cleaning', desc: 'Daily/weekly routines to keep workspaces spotless, healthy, and client‑ready.', chips: ['Desks & common areas','Workstations & keyboards','Pantry & toilets','Waste management','After‑hours scheduling'], img: 'https://images.unsplash.com/photo-1581579188871-45ea61f2a0c8?q=80&w=1600&auto=format&fit=crop' },
+        retail: { title: 'Retail Cleaning', desc: 'Front‑of‑house presentation and back‑of‑house hygiene to protect your brand.', chips: ['Glass & mirrors','Floors & displays','Fitting rooms','High‑touch disinfection','Opening/closing'], img: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1600&auto=format&fit=crop' },
+        spring: { title: 'Spring Cleaning', desc: 'Deep reset for homes and offices — perfect before move‑ins, festivals, or inspections.', chips: ['Grout & corners','Ceilings & fans','Cabinets & appliances','Windows & tracks','Detail dusting'], img: 'https://images.unsplash.com/photo-1581578017423-3b5312b9c7d5?q=80&w=1600&auto=format&fit=crop' },
+        carpet: { title: 'Carpet & Upholstery', desc: 'Hot‑water extraction and stain treatment to refresh carpets, sofas, and chairs.', chips: ['Spot & stain treatment','Hot‑water extraction','Deodorising','Fast drying methods','Fabric‑safe solutions'], img: 'https://images.unsplash.com/photo-1595855759920-28967e91a1f1?q=80&w=1600&auto=format&fit=crop' },
+        floor: { title: 'Floor Restoration', desc: 'Strip, seal, polish, and restore shine on vinyl, tile, marble, concrete and more.', chips: ['Scrubbing & buffing','Strip & seal','Marble polishing','Anti‑slip coatings','Scheduled maintenance'], img: 'https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1600&auto=format&fit=crop' },
+        sanitize: { title: 'Sanitising Services', desc: 'Targeted disinfection for high‑touch areas to reduce pathogens and downtime.', chips: ['Electrostatic misting','EPA‑approved chemicals','High‑touch focus','Post‑exposure clean','Certificates provided'], img: 'https://images.unsplash.com/photo-1583947215259-38e31be8752e?q=80&w=1600&auto=format&fit=crop' },
+        toiletry: { title: 'Toiletry & Hygiene', desc: 'Supply and replenish consumables with scheduled washroom hygiene maintenance.', chips: ['Hand towels & tissue','Soap & sanitiser','Air fresheners','Feminine hygiene','Weekly audits'], img: 'https://images.unsplash.com/photo-1615873968403-89e068629265?q=80&w=1600&auto=format&fit=crop' },
+        pest: { title: 'Pest Control', desc: 'Preventive and corrective treatments to keep pests out, safely and discreetly.', chips: ['Inspection & monitoring','Gel baiting','Residual spray','Rodent control','Follow‑up reporting'], img: 'https://images.unsplash.com/photo-1597074866923-3a6758d68ac6?q=80&w=1600&auto=format&fit=crop' },
+        landscape: { title: 'Landscaping Service', desc: 'Grounds maintenance to keep outdoors neat, safe, and inviting.', chips: ['Grass cutting','Hedge trimming','Debris removal','Weeding & edging','Scheduled upkeep'], img: 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=1600&auto=format&fit=crop' }
+      };
+
+      // Local photo fallbacks
+      const localBase = 'images/';
+      const localFiles = { office:'office.jpg', retail:'retail.jpg', spring:'spring.jpg', carpet:'carpet.jpg', floor:'floor.jpg', sanitize:'sanitize.jpg', toiletry:'toiletry.jpg', pest:'pest.jpg', landscape:'landscape.jpg' };
+
+      // Modal wiring
+      const modal = document.getElementById('serviceModal');
+      const modalImg = document.getElementById('modalImg');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalDesc = document.getElementById('modalDesc');
+      const modalChips = document.getElementById('modalChips');
+      const closeBtns = [document.getElementById('modalClose'), document.getElementById('modalClose2')];
+
+      function openModal(key){
+        const s = services[key]; if(!s) return;
+        modalTitle.textContent = s.title;
+        modalDesc.textContent = s.desc;
+        modalImg.alt = s.title + ' photo';
+        // Try local image first; if missing, fall back to Unsplash URL
+        const localSrc = localBase + (localFiles[key] || (key + '.jpg'));
+        modalImg.onerror = ()=>{ modalImg.onerror = null; modalImg.src = s.img; };
+        modalImg.src = localSrc;
+        // Build chips
+        modalChips.innerHTML = '';
+        s.chips.forEach(c => { const span = document.createElement('span'); span.className='chip'; span.textContent=c; modalChips.appendChild(span); });
+        modal.classList.add('open');
+        document.body.style.overflow='hidden';
+      }
+      function closeModal(){ modal.classList.remove('open'); document.body.style.overflow=''; }
+
+      document.querySelectorAll('.service-card').forEach(el=>{
+        el.addEventListener('click', ()=> openModal(el.getAttribute('data-service')));
+        el.setAttribute('tabindex','0');
+        el.addEventListener('keypress', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openModal(el.getAttribute('data-service')); }});
+      });
+      closeBtns.forEach(b=> b && b.addEventListener('click', closeModal));
+      modal.addEventListener('click', (e)=>{ if(e.target===modal) closeModal(); });
+      window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
+
+      // Populate gallery thumbs with same local-first logic
+      const map = {office:'g_office', retail:'g_retail', spring:'g_spring', carpet:'g_carpet', floor:'g_floor', sanitize:'g_sanitize', toiletry:'g_toiletry', pest:'g_pest', landscape:'g_landscape'};
+      for (const key in map){
+        const el = document.getElementById(map[key]);
+        const s = services[key]; if(!el || !s) continue;
+        const localSrc = localBase + (localFiles[key] || (key + '.jpg'));
+        el.onerror = ()=>{ el.onerror = null; el.src = s.img; };
+        el.src = localSrc;
+      }
+
+      // ===== Form handlers (WhatsApp + Email) =====
+      const form = document.getElementById('quoteForm');
+      const sendEmailBtn = document.getElementById('sendEmail');
+
+      function buildMessage(d){
+        return `Quote Request — Prasada Maju\n\nName: ${d.name}\nCompany: ${d.company||'-'}\nPhone: ${d.phone}\nEmail: ${d.email||'-'}\nService: ${d.service}\nDetails: ${d.details||'-'}`;
+      }
+      function getData(){
+        const d = Object.fromEntries(new FormData(form));
+        d.service = d.service || 'General enquiry';
+        return d;
+      }
+      form.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        const d = getData();
+        const text = encodeURIComponent(buildMessage(d));
+        const wa = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
+        window.open(wa, '_blank');
+      });
+      sendEmailBtn.addEventListener('click', ()=>{
+        const d = getData();
+        const subject = encodeURIComponent('Quote Request — Prasada Maju');
+        const body = encodeURIComponent(buildMessage(d));
+        window.location.href = `mailto:${SALES_EMAIL}?subject=${subject}&body=${body}`;
+      });
+    })();
+  </script>
+</body>
+</html>
